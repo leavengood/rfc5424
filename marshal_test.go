@@ -285,14 +285,6 @@ var invalidMessages = []Message{
 	Message{
 		StructuredData: []StructuredData{
 			StructuredData{
-				ID:         "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-				Parameters: []SDParam{SDParam{Name: "", Value: "value"}},
-			},
-		},
-	},
-	Message{
-		StructuredData: []StructuredData{
-			StructuredData{
 				ID:         `x@1`,
 				Parameters: []SDParam{SDParam{Name: "\x7f", Value: "value"}},
 			},
@@ -309,12 +301,33 @@ var invalidMessages = []Message{
 }
 
 func (s *MarshalTest) TestCannotMarshalInvalidMessages(c *C) {
-	for _, m := range invalidMessages {
+	for i, m := range invalidMessages {
 		bin, err := m.MarshalBinary()
 		if err == nil {
+			c.Logf(": %d", i)
 			c.Logf(": %s", string(bin))
 			c.Logf(": %#v", m)
 		}
+		c.Assert(err, Not(IsNil))
+		c.Assert(fmt.Sprintf("%s", err), Not(Equals), "")
+	}
+}
+
+func (s *MarshalTest) TestLogAttributes(c *C) {
+
+	m := Message{
+		StructuredData: []StructuredData{
+			StructuredData{
+				ID:         "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+				Parameters: []SDParam{SDParam{Name: "", Value: "value"}},
+			},
+		},
+	}
+	bin, err := m.MarshalBinary()
+	if allowLongSdNames {
+		c.Assert(err, IsNil)
+		c.Assert(string(bin), Equals, "<0>1 0001-01-01T00:00:00Z - - - - [AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA =\"value\"]")
+	} else {
 		c.Assert(err, Not(IsNil))
 		c.Assert(fmt.Sprintf("%s", err), Not(Equals), "")
 	}
