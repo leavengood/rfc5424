@@ -192,6 +192,9 @@ func reflectImpl(t reflect.Type) *reflection {
 				}
 			}
 		}
+
+		r.StructuredDataFieldReflections = append(r.StructuredDataFieldReflections,
+			fieldReflection)
 	}
 	return &r
 }
