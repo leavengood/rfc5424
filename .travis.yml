@@ -1,0 +1,11 @@
+language: go
+go: 
+ - 1.4
+ - release
+
+script:
+ - go get -t ./...
+ - go get golang.org/x/tools/cmd/goimports
+ - go get golang.org/x/tools/cmd/vet
+ - go get github.com/golang/lint/golint
+ - go test ./...
