@@ -26,8 +26,7 @@ var testCases = []struct {
 }{
 	// RFC-5424 Example 1
 	{Message{
-		Facility:       4,
-		Severity:       2,
+		Priority:       34,
 		Timestamp:      T("2003-10-11T22:14:15.003Z"),
 		Hostname:       "mymachine.example.com",
 		AppName:        "su",
@@ -38,8 +37,7 @@ var testCases = []struct {
 
 	// RFC-5424 Example 2
 	{Message{
-		Facility:       20,
-		Severity:       5,
+		Priority:       165,
 		Timestamp:      T("2003-08-24T05:14:15.000003-07:00"),
 		Hostname:       "192.0.2.1",
 		AppName:        "myproc",
@@ -50,8 +48,7 @@ var testCases = []struct {
 
 	// RFC-5424 Example 3
 	{Message{
-		Facility:  20,
-		Severity:  5,
+		Priority:  165,
 		Timestamp: T("2003-10-11T22:14:15.003Z"),
 		Hostname:  "mymachine.example.com",
 		AppName:   "evntslog",
@@ -80,8 +77,7 @@ var testCases = []struct {
 
 	// RFC-5424 Example 4
 	{Message{
-		Facility:  20,
-		Severity:  5,
+		Priority:  165,
 		Timestamp: T("2003-10-11T22:14:15.003Z"),
 		Hostname:  "mymachine.example.com",
 		AppName:   "evntslog",
@@ -228,10 +224,6 @@ func (s *MarshalTest) TestCannotUnmarshalBrokenStrings(c *C) {
 }
 
 var invalidMessages = []Message{
-	Message{Severity: -1},
-	Message{Severity: 9},
-	Message{Facility: -1},
-	Message{Facility: 24},
 	Message{Hostname: "\x7f"},
 	Message{Hostname: "\x20"},
 	Message{Hostname: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +

@@ -157,8 +157,7 @@ func (m *Message) readPriority(r io.RuneScanner) error {
 		if err != nil {
 			return BadFormat("Priority")
 		}
-		m.Severity = int(priority & severityMask)
-		m.Facility = int(priority&facilityMask) >> 3
+		m.Priority = int(priority)
 		return nil
 
 	}

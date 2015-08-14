@@ -86,12 +86,6 @@ func isValidSdName(s string) bool {
 }
 
 func (m Message) assertValid() error {
-	if m.Severity < 0 || m.Severity > 8 {
-		return InvalidValue("Severity", m.Severity)
-	}
-	if m.Facility < 0 || m.Facility > 23 {
-		return InvalidValue("Facility", m.Facility)
-	}
 
 	// HOSTNAME        = NILVALUE / 1*255PRINTUSASCII
 	if !isPrintableUsASCII(m.Hostname) {
@@ -149,7 +143,7 @@ func (m Message) MarshalBinary() ([]byte, error) {
 
 	b := bytes.NewBuffer(nil)
 	fmt.Fprintf(b, "<%d>1 %s %s %s %s %s ",
-		m.Severity|m.Facility<<3,
+		m.Priority,
 		m.Timestamp.Format(time.RFC3339Nano),
 		nilify(m.Hostname),
 		nilify(m.AppName),
