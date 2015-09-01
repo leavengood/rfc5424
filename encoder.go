@@ -20,14 +20,14 @@ type Severity int
 
 const (
 	DefaultSeverity = iota
-	Emergency       = iota
-	Alert           = iota
-	Critical        = iota
-	Error           = iota
-	Warning         = iota
-	Notice          = iota
-	Info            = iota
-	Debug           = iota
+	Emergency
+	Alert
+	Critical
+	Error
+	Warning
+	Notice
+	Info
+	Debug
 )
 
 var severityNames = map[string]Severity{
@@ -49,30 +49,30 @@ type Facility int
 
 const (
 	DefaultFacility = iota
-	Kernel          = iota
-	User            = iota
-	Mail            = iota
-	Daemon          = iota
-	Auth            = iota
-	Syslog          = iota
-	LPR             = iota
-	News            = iota
-	UUCP            = iota
-	Clock           = iota
-	AuthPriv        = iota
-	FTP             = iota
-	NTP             = iota
-	Audit           = iota
-	LogAlert        = iota
-	Cron            = iota
-	Local0          = iota
-	Local1          = iota
-	Local2          = iota
-	Local3          = iota
-	Local4          = iota
-	Local5          = iota
-	Local6          = iota
-	Local7          = iota
+	Kernel
+	User
+	Mail
+	Daemon
+	Auth
+	Syslog
+	LPR
+	News
+	UUCP
+	Clock
+	AuthPriv
+	FTP
+	NTP
+	Audit
+	LogAlert
+	Cron
+	Local0
+	Local1
+	Local2
+	Local3
+	Local4
+	Local5
+	Local6
+	Local7
 )
 
 var facilityNames = map[string]Facility{
