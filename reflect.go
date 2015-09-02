@@ -10,25 +10,29 @@ import (
 	"strings"
 )
 
-const defaultSeverity = Info
-const defaultFacility = Local0
-const defaultStructuredDataID = "0@local"
+const (
+	defaultSeverity         = Info
+	defaultFacility         = Local0
+	defaultStructuredDataID = "0@local"
+)
 
-var defaultHostname = func() string {
-	h, err := os.Hostname()
-	if err != nil {
-		panic(err)
-	}
-	return h
-}()
+var (
+	defaultHostname = func() string {
+		h, err := os.Hostname()
+		if err != nil {
+			panic(err)
+		}
+		return h
+	}()
 
-var defaultAppName = func() string {
-	return path.Base(os.Args[0])
-}()
+	defaultAppName = func() string {
+		return path.Base(os.Args[0])
+	}()
 
-var defaultProcessID = func() string {
-	return strconv.FormatInt(int64(os.Getpid()), 10)
-}()
+	defaultProcessID = func() string {
+		return strconv.FormatInt(int64(os.Getpid()), 10)
+	}()
+)
 
 type reflection struct {
 	Type                           reflect.Type
