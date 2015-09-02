@@ -119,7 +119,6 @@ func reflectImpl(t reflect.Type) *reflection {
 				}
 				r.SeverityDefault = severity
 			}
-			continue
 		case "Facility":
 			r.FacilityFieldIndex = fieldIndex
 			if fieldTag != "" {
@@ -129,76 +128,72 @@ func reflectImpl(t reflect.Type) *reflection {
 				}
 				r.FacilityDefault = facility
 			}
-			continue
 		case "Timestamp":
 			r.TimestampFieldIndex = fieldIndex
-			continue
 		case "Hostname":
 			r.HostnameFieldIndex = fieldIndex
-			continue
 		case "AppName":
 			r.AppNameFieldIndex = fieldIndex
 			if fieldTag != "" {
 				r.AppNameDefault = fieldTag
 			}
-			continue
 		case "ProcessID":
 			r.ProcessIDFieldIndex = fieldIndex
-			continue
 		case "MessageID":
 			r.MessageIDFieldIndex = fieldIndex
 			if fieldTag != "" {
 				r.MessageIDDefault = fieldTag
 			}
-			continue
-		}
+		default:
+			// Message or Structured Data fields
 
-		// if the field is private and not tagged, ignore it
-		if fieldTag == "" && field.PkgPath != "" {
-			// Field is not exported, skip it
-			continue
-		}
+			// if the field is private and not tagged, ignore it
+			if fieldTag == "" && field.PkgPath != "" {
+				// Field is not exported, skip it
+				continue
+			}
 
-		tagParts := strings.Split(fieldTag, ",")
+			tagParts := strings.Split(fieldTag, ",")
 
-		// If the field is marked message it contains the message
-		if len(tagParts) > 1 && tagParts[0] == "" && tagParts[1] == "message" {
-			r.MessageFieldIndex = fieldIndex
-			continue
-		}
+			// If the field is marked message it contains the message
+			if len(tagParts) > 1 && tagParts[0] == "" && tagParts[1] == "message" {
+				r.MessageFieldIndex = fieldIndex
+				continue
+			}
 
-		fieldReflection := structuredDataFieldReflection{}
-		fieldReflection.FieldIndex = fieldIndex
-		fieldReflection.FieldName = tagParts[0]
-		fieldReflection.SdID = defaultStructuredDataID
+			fieldReflection := structuredDataFieldReflection{}
+			fieldReflection.FieldIndex = fieldIndex
+			fieldReflection.FieldName = tagParts[0]
+			fieldReflection.SdID = defaultStructuredDataID
 
-		if fieldReflection.FieldName == "" {
-			// generate a field name
-			// TODO(ross): improve this with Ryan's code
-			fieldReflection.FieldName = field.Name
-		}
+			if fieldReflection.FieldName == "" {
+				// generate a field name
+				// TODO(ross): improve this with Ryan's code
+				fieldReflection.FieldName = field.Name
+			}
 
-		re := regexp.MustCompile("^(\\d+@\\S+) (.*)$")
-		matches := re.FindAllStringSubmatch(fieldReflection.FieldName, -1)
-		if matches != nil {
-			fieldReflection.SdID = matches[0][1]
-			fieldReflection.FieldName = matches[0][2]
-		}
+			re := regexp.MustCompile("^(\\d+@\\S+) (.*)$")
+			matches := re.FindAllStringSubmatch(fieldReflection.FieldName, -1)
+			if matches != nil {
+				fieldReflection.SdID = matches[0][1]
+				fieldReflection.FieldName = matches[0][2]
+			}
 
-		if len(tagParts) > 1 {
-			for _, tagAttr := range tagParts[1:] {
-				switch tagParts[1] {
-				case "omitempty":
-					fieldReflection.OmitEmpty = true
-				default:
-					log.Panicf("unknown tag %s on field %s of %s",
-						tagAttr, field.Name, t.Name())
+			if len(tagParts) > 1 {
+				for _, tagAttr := range tagParts[1:] {
+					switch tagParts[1] {
+					case "omitempty":
+						fieldReflection.OmitEmpty = true
+					default:
+						log.Panicf("unknown tag %s on field %s of %s",
+							tagAttr, field.Name, t.Name())
+					}
 				}
 			}
-		}
 
-		r.StructuredDataFieldReflections = append(r.StructuredDataFieldReflections,
-			fieldReflection)
+			r.StructuredDataFieldReflections = append(r.StructuredDataFieldReflections,
+				fieldReflection)
+		}
 	}
 	return &r
 }
