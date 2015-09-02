@@ -88,6 +88,8 @@ func Reflect(t reflect.Type) *reflection {
 	return r
 }
 
+var sdRegexp = regexp.MustCompile("^(\\d+@\\S+) (.*)$")
+
 func reflectImpl(t reflect.Type) *reflection {
 	r := reflection{
 		Type:                           t,
@@ -172,8 +174,7 @@ func reflectImpl(t reflect.Type) *reflection {
 				fieldReflection.FieldName = field.Name
 			}
 
-			re := regexp.MustCompile("^(\\d+@\\S+) (.*)$")
-			matches := re.FindAllStringSubmatch(fieldReflection.FieldName, -1)
+			matches := sdRegexp.FindAllStringSubmatch(fieldReflection.FieldName, -1)
 			if matches != nil {
 				fieldReflection.SdID = matches[0][1]
 				fieldReflection.FieldName = matches[0][2]
