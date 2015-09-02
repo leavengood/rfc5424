@@ -20,7 +20,7 @@ type struct1 struct {
 	AppName                 string `log:"myAppName"`
 	ProcessID               int
 	MessageID               string
-	Message                 []byte `log:",message"`
+	Message                 []byte
 	MyCustomInt             int
 	MyCustomString          string
 	MyCustomBool            bool
@@ -120,7 +120,8 @@ type struct3 struct {
 	AppName        string
 	ProcessID      int
 	MessageID      string
-	Message        []byte `log:",message"`
+	Message        []byte // To test the tag below
+	RealMessage    []byte `log:",message"`
 	MyCustomString string
 }
 
@@ -137,10 +138,10 @@ var expectedReflection3 = reflection{
 	ProcessIDFieldIndex: 5,
 	MessageIDFieldIndex: 6,
 	MessageIDDefault:    "struct3",
-	MessageFieldIndex:   7,
+	MessageFieldIndex:   8,
 	StructuredDataFieldReflections: []structuredDataFieldReflection{
 		structuredDataFieldReflection{
-			FieldIndex: 8,
+			FieldIndex: 9,
 			FieldName:  "MyCustomString",
 			SdID:       "0@local",
 		},

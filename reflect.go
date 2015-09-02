@@ -146,6 +146,8 @@ func reflectImpl(t reflect.Type) *reflection {
 			if fieldTag != "" {
 				r.MessageIDDefault = fieldTag
 			}
+		case "Message":
+			r.MessageFieldIndex = fieldIndex
 		default:
 			// Message or Structured Data fields
 
