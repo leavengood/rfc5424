@@ -171,9 +171,8 @@ func reflectImpl(t reflect.Type) *reflection {
 			fieldReflection.SdID = defaultStructuredDataID
 
 			if fieldReflection.FieldName == "" {
-				// generate a field name
-				// TODO(ross): improve this with Ryan's code
-				fieldReflection.FieldName = field.Name
+				// Generate a field name by converting the first letter to lowercase
+				fieldReflection.FieldName = strings.ToLower(field.Name[0:1]) + field.Name[1:]
 			}
 
 			matches := sdRegexp.FindAllStringSubmatch(fieldReflection.FieldName, -1)

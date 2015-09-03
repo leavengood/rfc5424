@@ -45,17 +45,17 @@ var expectedReflection1 = reflection{
 	StructuredDataFieldReflections: []structuredDataFieldReflection{
 		structuredDataFieldReflection{
 			FieldIndex: 8,
-			FieldName:  "MyCustomInt",
+			FieldName:  "myCustomInt",
 			SdID:       "0@local",
 		},
 		structuredDataFieldReflection{
 			FieldIndex: 9,
-			FieldName:  "MyCustomString",
+			FieldName:  "myCustomString",
 			SdID:       "0@local",
 		},
 		structuredDataFieldReflection{
 			FieldIndex: 10,
-			FieldName:  "MyCustomBool",
+			FieldName:  "myCustomBool",
 			SdID:       "0@local",
 		},
 		structuredDataFieldReflection{
@@ -91,17 +91,17 @@ var expectedReflection2 = reflection{
 	StructuredDataFieldReflections: []structuredDataFieldReflection{
 		structuredDataFieldReflection{
 			FieldIndex: 0,
-			FieldName:  "MyCustomInt",
+			FieldName:  "myCustomInt",
 			SdID:       "0@local",
 		},
 		structuredDataFieldReflection{
 			FieldIndex: 1,
-			FieldName:  "MyCustomString",
+			FieldName:  "myCustomString",
 			SdID:       "0@local",
 		},
 		structuredDataFieldReflection{
 			FieldIndex: 2,
-			FieldName:  "MyCustomBool",
+			FieldName:  "myCustomBool",
 			SdID:       "0@local",
 		},
 		structuredDataFieldReflection{
@@ -142,7 +142,7 @@ var expectedReflection3 = reflection{
 	StructuredDataFieldReflections: []structuredDataFieldReflection{
 		structuredDataFieldReflection{
 			FieldIndex: 9,
-			FieldName:  "MyCustomString",
+			FieldName:  "myCustomString",
 			SdID:       "0@local",
 		},
 	},
