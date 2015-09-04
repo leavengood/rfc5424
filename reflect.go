@@ -48,6 +48,7 @@ type reflection struct {
 	MessageIDFieldIndex            int
 	MessageIDDefault               string
 	MessageFieldIndex              int
+	SDIDDefault                    string
 	StructuredDataFieldReflections []structuredDataFieldReflection
 }
 
@@ -88,7 +89,7 @@ func Reflect(t reflect.Type) *reflection {
 	return r
 }
 
-var sdRegexp = regexp.MustCompile("^(\\d+@\\S+) (.*)$")
+var sdRegexp = regexp.MustCompile("^(\\d+@\\S+)( (.*))?$")
 
 func reflectImpl(t reflect.Type) *reflection {
 	r := reflection{
@@ -146,6 +147,10 @@ func reflectImpl(t reflect.Type) *reflection {
 			if fieldTag != "" {
 				r.MessageIDDefault = fieldTag
 			}
+		case "SDID":
+			if fieldTag != "" {
+				r.SDIDDefault = fieldTag
+			}
 		case "Message":
 			r.MessageFieldIndex = fieldIndex
 		default:
@@ -168,17 +173,21 @@ func reflectImpl(t reflect.Type) *reflection {
 			fieldReflection := structuredDataFieldReflection{}
 			fieldReflection.FieldIndex = fieldIndex
 			fieldReflection.FieldName = tagParts[0]
-			fieldReflection.SdID = defaultStructuredDataID
-
-			if fieldReflection.FieldName == "" {
-				// Generate a field name by converting the first letter to lowercase
-				fieldReflection.FieldName = strings.ToLower(field.Name[0:1]) + field.Name[1:]
+			if r.SDIDDefault != "" {
+				fieldReflection.SdID = r.SDIDDefault
+			} else {
+				fieldReflection.SdID = defaultStructuredDataID
 			}
 
 			matches := sdRegexp.FindAllStringSubmatch(fieldReflection.FieldName, -1)
 			if matches != nil {
 				fieldReflection.SdID = matches[0][1]
-				fieldReflection.FieldName = matches[0][2]
+				fieldReflection.FieldName = matches[0][3]
+			}
+
+			if fieldReflection.FieldName == "" {
+				// Generate a field name by converting the first letter to lowercase
+				fieldReflection.FieldName = strings.ToLower(field.Name[0:1]) + field.Name[1:]
 			}
 
 			if len(tagParts) > 1 {

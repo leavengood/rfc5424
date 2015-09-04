@@ -21,7 +21,7 @@ type struct1 struct {
 	ProcessID               int
 	MessageID               string
 	Message                 []byte
-	MyCustomInt             int
+	MyCustomInt             int `log:"9999@custom"`
 	MyCustomString          string
 	MyCustomBool            bool
 	myUnexportedValue       string
@@ -46,7 +46,7 @@ var expectedReflection1 = reflection{
 		structuredDataFieldReflection{
 			FieldIndex: 8,
 			FieldName:  "myCustomInt",
-			SdID:       "0@local",
+			SdID:       "9999@custom",
 		},
 		structuredDataFieldReflection{
 			FieldIndex: 9,
@@ -67,6 +67,7 @@ var expectedReflection1 = reflection{
 }
 
 type struct2 struct {
+	SDID                    int `log:"1234@demo"`
 	MyCustomInt             int
 	MyCustomString          string
 	MyCustomBool            bool
@@ -88,24 +89,25 @@ var expectedReflection2 = reflection{
 	MessageIDFieldIndex: -1,
 	MessageIDDefault:    "struct2",
 	MessageFieldIndex:   -1,
+	SDIDDefault:         "1234@demo",
 	StructuredDataFieldReflections: []structuredDataFieldReflection{
 		structuredDataFieldReflection{
-			FieldIndex: 0,
-			FieldName:  "myCustomInt",
-			SdID:       "0@local",
-		},
-		structuredDataFieldReflection{
 			FieldIndex: 1,
-			FieldName:  "myCustomString",
-			SdID:       "0@local",
+			FieldName:  "myCustomInt",
+			SdID:       "1234@demo",
 		},
 		structuredDataFieldReflection{
 			FieldIndex: 2,
-			FieldName:  "myCustomBool",
-			SdID:       "0@local",
+			FieldName:  "myCustomString",
+			SdID:       "1234@demo",
 		},
 		structuredDataFieldReflection{
-			FieldIndex: 4,
+			FieldIndex: 3,
+			FieldName:  "myCustomBool",
+			SdID:       "1234@demo",
+		},
+		structuredDataFieldReflection{
+			FieldIndex: 5,
 			FieldName:  "myUnexportedTaggedValue",
 			SdID:       "5516@sbc",
 		},
