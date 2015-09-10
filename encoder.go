@@ -53,7 +53,8 @@ func Encode(ob interface{}) *Message {
 
 	if reflection.MessageIDFieldIndex >= 0 {
 		m.MessageID = mv.Field(reflection.MessageIDFieldIndex).String()
-	} else {
+	}
+	if m.MessageID == "" {
 		m.MessageID = reflection.MessageIDDefault
 	}
 
