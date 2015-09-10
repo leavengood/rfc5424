@@ -8,15 +8,7 @@ import (
 
 var TimeNow = time.Now
 
-type Encoder struct {
-	Writer io.Writer
-}
-
-func NewEncoder(w io.Writer) *Encoder {
-	return &Encoder{Writer: w}
-}
-
-func (e Encoder) encode(ob interface{}) *Message {
+func Encode(ob interface{}) *Message {
 	mt := reflect.TypeOf(ob)
 	mv := reflect.ValueOf(ob)
 
@@ -82,8 +74,16 @@ func (e Encoder) encode(ob interface{}) *Message {
 	return &m
 }
 
+type Encoder struct {
+	Writer io.Writer
+}
+
+func NewEncoder(w io.Writer) *Encoder {
+	return &Encoder{Writer: w}
+}
+
 func (e Encoder) Encode(ob interface{}) error {
-	m := e.encode(ob)
+	m := Encode(ob)
 	_, err := m.WriteTo(e.Writer)
 	return err
 }
